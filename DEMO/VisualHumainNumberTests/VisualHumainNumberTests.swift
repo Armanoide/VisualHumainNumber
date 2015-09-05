@@ -23,8 +23,10 @@ class VisualHumainNumberTests: XCTestCase {
     
     func testExample() {
         println("----")
+        
+        VisualHumainNumber(string: "987654321.1234567890")
+        
         var numberString = "53430345.83"
-                
         var vhn :  VisualHumainNumber = VisualHumainNumber(string:numberString)
         println(numberString)
         println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredWithComaRounded))

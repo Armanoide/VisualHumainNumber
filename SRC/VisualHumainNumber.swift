@@ -102,9 +102,8 @@ class VisualHumainNumber {
         let __ = self.visualHumainNumbersDecimal
         
         var r : Double = 0
-        
+        var finalNotation : VisualHumainNumberNotation = .SeparatorHundredWithComaRounded
         var type = 0
-        
         
         if __ < 1000 {
             r =  __
@@ -120,10 +119,11 @@ class VisualHumainNumber {
             type = 3
         }
         
-        var rs = notation == .SimpleHumain ? "\(Int(r))" : "\(r)"
+        var rs  = "\(floor(r * 10) / 10)"
+        if (floor(r * 10) / 10) % 1 == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .SeparatorHundredWithComa }
+        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .SeparatorHundredWithComa }
         let __arr = VisualHumainNumber(string: rs)
-        return __arr.getVisualHumainNumbers(notation: notation == .SimpleHumain ?
-            .SeparatorHundredWithSpace : .SeparatorHundredWithSpaceRounded) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
+        return __arr.getVisualHumainNumbers(notation: finalNotation) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
     }
     
     
@@ -190,6 +190,65 @@ class VisualHumainNumber {
         }
     }
     
+    private class func getCh(c : Character) -> Int {
+        switch c {
+        case "0": return 0
+        case "1": return 1
+        case "2": return 2
+        case "3": return 3
+        case "4": return 4
+        case "5": return 5
+        case "6": return 6
+        case "7": return 7
+        case "8": return 8
+        case "9": return 9
+        default: return 0
+        }
+    }
+    
+    
+    private class func getDoubleFromString(numberString: String) -> Double {
+        var number : Double = 0
+        var mul : Double = 1
+        var __P = "UP"
+        
+        for c in numberString {
+            if VisualHumainNumber.isCharacterMarkerDecimal(c) {
+                __P = "DOWN"
+                mul = 0.1
+                
+            } else {
+                
+                if __P == "UP" {
+                    
+                    number = number * 10 + Double(VisualHumainNumber.getCh(c))
+                    
+                } else {
+                    
+                    number = number + Double(VisualHumainNumber.getCh(c)) * mul
+                    mul /= 10
+                    
+                }
+            }
+        }
+        return number
+    }
+    
+    private class func getIntegerFromString(numberString: String) -> Int64 {
+        var number : Int64 = 0
+        
+        for c in numberString {
+            
+            if VisualHumainNumber.isCharacterMarkerDecimal(c) { break }
+            
+            number = number * 10 + VisualHumainNumber.getCh(c)
+            
+        }
+        return number
+    }
+    
+    
+    
     /// Function collect all number found in the string and cast to double
     ///
     ///
@@ -203,10 +262,10 @@ class VisualHumainNumber {
                 numberString.append(c)
             }
             else if  VisualHumainNumber.isCharacterMarkerDecimal(c) == true  {
-                numberString.append(Character("."))
+                numberString.append(Character(","))
             }
         }
-        return NSNumberFormatter().numberFromString(numberString)!.doubleValue
+        return self.getDoubleFromString(numberString)
     }
     
     /// Function collect all number found in the string and cast to interger
@@ -225,7 +284,7 @@ class VisualHumainNumber {
                 numberString.append(Character("."))
             }
         }
-        return NSNumberFormatter().numberFromString(numberString)!.longLongValue
+        return getIntegerFromString(numberString)
     }
     
 }
