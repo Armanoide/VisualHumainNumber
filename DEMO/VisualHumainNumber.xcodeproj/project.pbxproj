@@ -34,7 +34,7 @@
 		AE65AE081B9A3E9D0082E382 /* VisualHumainNumberTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VisualHumainNumberTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE65AE0D1B9A3E9D0082E382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE65AE0E1B9A3E9D0082E382 /* VisualHumainNumberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualHumainNumberTests.swift; sourceTree = "<group>"; };
-		AE65AE181B9A3EBD0082E382 /* VisualHumainNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VisualHumainNumber.swift; sourceTree = "<group>"; };
+		AE65AE181B9A3EBD0082E382 /* VisualHumainNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisualHumainNumber.swift; path = ../../SRC/VisualHumainNumber.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
