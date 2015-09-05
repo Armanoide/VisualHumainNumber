@@ -2,7 +2,6 @@
 Display big number with abbreviation 
 
 Note: Build on Xcode 6, swift 1.2
-All method are asynchronous.
 
 ## Install
 
