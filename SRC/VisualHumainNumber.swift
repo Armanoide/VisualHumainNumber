@@ -28,7 +28,7 @@ import Foundation
 ///
 ///
 /// - returns: VisualHumainNumberNotation.
-public enum VisualHumainNumberNotation : Int {
+@objc public enum VisualHumainNumberNotation : Int {
     case SimpleHumain
     case SeparatorHundredWithSpace
     case SeparatorHundredWithComa
@@ -36,16 +36,19 @@ public enum VisualHumainNumberNotation : Int {
     case SeparatorHundredWithComaRounded
 }
 
-public class VisualHumainNumber {
+@objc public class VisualHumainNumber: NSObject {
     
     private var visualHumainNumbersDecimal : Double = 0
     private var visualHumainNumbersInteger : Int64 = 0
     
-   public init(string :String)    { self.setNumber(string: string) }
+   public init(string :String)    { super.init ()
+    self.setNumber(string: string)}
     
-   public init(double: Double)    { self.setNumber(double: double) }
+   public init(double: Double)    { super.init ()
+    self.setNumber(double: double) }
     
-   public init(long: Int64)       { self.setNumber(long: long) }
+   public init(long: Int64)       { super.init ()
+    self.setNumber(long: long) }
     
    public func setNumber(string string : String) ->  VisualHumainNumber {
         self.visualHumainNumbersDecimal =  VisualHumainNumber.trimAllNumberToDecimal(string)
