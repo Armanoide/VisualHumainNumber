@@ -14,7 +14,7 @@ use ~>"0.0.X" for swift1.2
 
 To use this vendor add files VisualHumainNumber.swift to your Project or add pod 'VisualHumainNumber', to your podfile
 
-![alt tag](https://github.com/Armanoide/VisualHumainNumber/blob/master/demo.png =640x480)
+![alt tag](https://github.com/Armanoide/VisualHumainNumber/blob/master/demo.png)
 
 ## Basic
      
