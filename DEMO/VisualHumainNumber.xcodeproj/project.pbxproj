@@ -13,6 +13,8 @@
 		AE65AE0F1B9A3E9D0082E382 /* VisualHumainNumberTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE65AE0E1B9A3E9D0082E382 /* VisualHumainNumberTests.swift */; };
 		AE65AE191B9A3EBD0082E382 /* VisualHumainNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE65AE181B9A3EBD0082E382 /* VisualHumainNumber.swift */; };
 		AE65AE1B1B9A40B30082E382 /* VisualHumainNumber.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE65AE181B9A3EBD0082E382 /* VisualHumainNumber.swift */; };
+		AEAA730D1DAF6F6800924785 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEAA730B1DAF6F6800924785 /* ViewController.swift */; };
+		AEAA730E1DAF6F6800924785 /* ViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = AEAA730C1DAF6F6800924785 /* ViewController.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,6 +37,8 @@
 		AE65AE0D1B9A3E9D0082E382 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AE65AE0E1B9A3E9D0082E382 /* VisualHumainNumberTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualHumainNumberTests.swift; sourceTree = "<group>"; };
 		AE65AE181B9A3EBD0082E382 /* VisualHumainNumber.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = VisualHumainNumber.swift; path = ../../SRC/VisualHumainNumber.swift; sourceTree = "<group>"; };
+		AEAA730B1DAF6F6800924785 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ViewController.swift; path = ViewController/ViewController.swift; sourceTree = SOURCE_ROOT; };
+		AEAA730C1DAF6F6800924785 /* ViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = ViewController.xib; path = ViewController/ViewController.xib; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +80,7 @@
 		AE65ADF21B9A3E9D0082E382 /* VisualHumainNumber */ = {
 			isa = PBXGroup;
 			children = (
-				AEF09E741B9B05F20045AD40 /* Demo */,
+				AEAA730A1DAF6F4100924785 /* Demo */,
 				AE65AE1A1B9A3ED20082E382 /* SRC */,
 				AE65ADF51B9A3E9D0082E382 /* AppDelegate.swift */,
 				AE65ADFF1B9A3E9D0082E382 /* Images.xcassets */,
@@ -119,9 +123,11 @@
 			name = SRC;
 			sourceTree = "<group>";
 		};
-		AEF09E741B9B05F20045AD40 /* Demo */ = {
+		AEAA730A1DAF6F4100924785 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				AEAA730B1DAF6F6800924785 /* ViewController.swift */,
+				AEAA730C1DAF6F6800924785 /* ViewController.xib */,
 			);
 			name = Demo;
 			sourceTree = "<group>";
@@ -177,9 +183,11 @@
 				TargetAttributes = {
 					AE65ADEF1B9A3E9D0082E382 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 					};
 					AE65AE071B9A3E9D0082E382 = {
 						CreatedOnToolsVersion = 6.4;
+						LastSwiftMigration = 0800;
 						TestTargetID = AE65ADEF1B9A3E9D0082E382;
 					};
 				};
@@ -209,6 +217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AE65AE031B9A3E9D0082E382 /* LaunchScreen.xib in Resources */,
+				AEAA730E1DAF6F6800924785 /* ViewController.xib in Resources */,
 				AE65AE001B9A3E9D0082E382 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -227,6 +236,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AEAA730D1DAF6F6800924785 /* ViewController.swift in Sources */,
 				AE65AE191B9A3EBD0082E382 /* VisualHumainNumber.swift in Sources */,
 				AE65ADF61B9A3E9D0082E382 /* AppDelegate.swift in Sources */,
 			);
@@ -356,6 +366,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.billa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -368,6 +379,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.billa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -387,6 +399,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.billa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VisualHumainNumber.app/VisualHumainNumber";
 			};
 			name = Debug;
@@ -403,6 +416,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.billa.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/VisualHumainNumber.app/VisualHumainNumber";
 			};
 			name = Release;

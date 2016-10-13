@@ -29,17 +29,17 @@ import Foundation
 ///
 /// - returns: VisualHumainNumberNotation.
 public enum VisualHumainNumberNotation : Int {
-    case SimpleHumain
-    case SeparatorHundredWithSpace
-    case SeparatorHundredWithComa
-    case SeparatorHundredWithSpaceRounded
-    case SeparatorHundredWithComaRounded
+    case simpleHumain
+    case separatorHundredWithSpace
+    case separatorHundredWithComa
+    case separatorHundredWithSpaceRounded
+    case separatorHundredWithComaRounded
 }
 
-public class VisualHumainNumber {
+open class VisualHumainNumber {
     
-    private var visualHumainNumbersDecimal : Double = 0
-    private var visualHumainNumbersInteger : Int64 = 0
+    fileprivate var visualHumainNumbersDecimal : Double = 0
+    fileprivate var visualHumainNumbersInteger : Int64 = 0
     
    public init(string :String)    { self.setNumber(string: string) }
     
@@ -47,32 +47,32 @@ public class VisualHumainNumber {
     
    public init(long: Int64)       { self.setNumber(long: long) }
     
-   public func setNumber(string string : String) ->  VisualHumainNumber {
+   open func setNumber(string : String) ->  VisualHumainNumber {
         self.visualHumainNumbersDecimal =  VisualHumainNumber.trimAllNumberToDecimal(string)
         self.visualHumainNumbersInteger =  VisualHumainNumber.trimAllNumberToInt(string)
         return self
     }
-    public func setNumber(double double: Double) -> VisualHumainNumber {
+    open func setNumber(double: Double) -> VisualHumainNumber {
         self.visualHumainNumbersDecimal = double
         self.visualHumainNumbersInteger = Int64(floor(double))
         return self
     }
     
-    public func setNumber(long long: Int64) -> VisualHumainNumber {
+    open func setNumber(long: Int64) -> VisualHumainNumber {
         self.visualHumainNumbersDecimal = Double(long)
         self.visualHumainNumbersInteger = long
         return self
     }
     
-    private func separator(notation notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : Character) -> String {
+    fileprivate func separator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : Character) -> String {
         var s  = ""
         var r = ""
         var __all_count = 0
-        var __start = (notation == .SeparatorHundredWithComaRounded || notation == .SeparatorHundredWithSpaceRounded) ? false : true
-        let __true_length_decimal = (notation == .SeparatorHundredWithComaRounded || notation == .SeparatorHundredWithSpaceRounded) ? 3 : 0
+        var __start = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? false : true
+        let __true_length_decimal = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? 3 : 0
         
         switch notation {
-        case .SeparatorHundredWithComaRounded, .SeparatorHundredWithSpaceRounded :
+        case .separatorHundredWithComaRounded, .separatorHundredWithSpaceRounded :
             s = VisualHumainNumber.inverseString(String(stringInterpolationSegment: self.visualHumainNumbersDecimal))
             break
         default:
@@ -87,7 +87,7 @@ public class VisualHumainNumber {
                 if __all_count % lenghtForSeparator == 0 && __all_count < s.characters.count - __true_length_decimal && __all_count > 0 {
                     r.append(separator)
                 }
-                __all_count++
+                __all_count += 1
             } else if c == "." {
                 __start = true
             }
@@ -97,12 +97,12 @@ public class VisualHumainNumber {
         return VisualHumainNumber.inverseString(r)
     }
     
-    private func simpleHumain(notation notation : VisualHumainNumberNotation) -> String {
+    fileprivate func simpleHumain(notation : VisualHumainNumberNotation) -> String {
         
         let __ = self.visualHumainNumbersDecimal
         
         var r : Double = 0
-        var finalNotation : VisualHumainNumberNotation = .SeparatorHundredWithComaRounded
+        var finalNotation : VisualHumainNumberNotation = .separatorHundredWithComaRounded
         var type = 0
         
         if __ < 1000 {
@@ -120,8 +120,8 @@ public class VisualHumainNumber {
         }
         
         var rs  = "\(floor(r * 10) / 10)"
-        if (floor(r * 10) / 10) % 1 == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .SeparatorHundredWithComa }
-        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .SeparatorHundredWithComa }
+        if (floor(r * 10) / 10).truncatingRemainder(dividingBy: 1) == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .separatorHundredWithComa }
+        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .separatorHundredWithComa }
         let __arr = VisualHumainNumber(string: rs)
         return __arr.getVisualHumainNumbers(notation: finalNotation) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
     }
@@ -132,16 +132,16 @@ public class VisualHumainNumber {
     ///
     /// - parameter VisualHumainNumberNotation: use to determine the fomat to display number.
     /// - returns: String.
-    public func getVisualHumainNumbers(notation notation : VisualHumainNumberNotation) -> String {
+    open func getVisualHumainNumbers(notation : VisualHumainNumberNotation) -> String {
         
         if self.visualHumainNumbersDecimal == 0 { return "0" }
         
         switch notation {
-        case .SimpleHumain:
+        case .simpleHumain:
             return self.simpleHumain(notation: notation)
-        case .SeparatorHundredWithComa, .SeparatorHundredWithComaRounded:
+        case .separatorHundredWithComa, .separatorHundredWithComaRounded:
             return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(","))
-        case .SeparatorHundredWithSpace, .SeparatorHundredWithSpaceRounded:
+        case .separatorHundredWithSpace, .separatorHundredWithSpaceRounded:
             return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(" "))
         }
     }
@@ -153,7 +153,7 @@ public class VisualHumainNumber {
     ///
     /// - parameter String: The string to reverse order.
     /// - returns: String.
-    public class func inverseString (string :String) -> String {
+    open class func inverseString (_ string :String) -> String {
         
         var s = ""
         for c in string.characters {
@@ -168,7 +168,7 @@ public class VisualHumainNumber {
     ///
     /// - parameter Character:
     /// - returns: Bool.
-    public class func isCharacterNumber(c: Character) -> Bool {
+    open class func isCharacterNumber(_ c: Character) -> Bool {
         switch String(c) {
         case "0", "1", "2", "3", "4", "5", "6", "6", "7", "8", "9" : return true
         default: return false
@@ -181,14 +181,14 @@ public class VisualHumainNumber {
     ///
     /// - parameter Character:
     /// - returns: Bool.
-    public class func isCharacterMarkerDecimal(c : Character) -> Bool {
+    open class func isCharacterMarkerDecimal(_ c : Character) -> Bool {
         switch String(c) {
         case ",", "." : return true
         default: return false
         }
     }
     
-    private class func getCh(c : Character) -> Int {
+    fileprivate class func getCh(_ c : Character) -> Int {
         switch c {
         case "0": return 0
         case "1": return 1
@@ -205,7 +205,7 @@ public class VisualHumainNumber {
     }
     
     
-    private class func getDoubleFromString(numberString: String) -> Double {
+    fileprivate class func getDoubleFromString(_ numberString: String) -> Double {
         var number : Double = 0
         var mul : Double = 1
         var __P = "UP"
@@ -232,7 +232,7 @@ public class VisualHumainNumber {
         return number
     }
     
-    private class func getIntegerFromString(numberString: String) -> Int64 {
+    fileprivate class func getIntegerFromString(_ numberString: String) -> Int64 {
         var number : Int64 = 0
         
         for c in numberString.characters {
@@ -253,7 +253,7 @@ public class VisualHumainNumber {
     ///
     /// - parameter String:
     /// - returns: Bool.
-    public class func trimAllNumberToDecimal(string : String) -> Double {
+    open class func trimAllNumberToDecimal(_ string : String) -> Double {
         var numberString : String = ""
         for c in string.characters {
             if VisualHumainNumber.isCharacterNumber(c) == true {
@@ -272,7 +272,7 @@ public class VisualHumainNumber {
     ///
     /// - parameter String:
     /// - returns: Bool.
-    public class func trimAllNumberToInt(string : String) -> Int64 {
+    open class func trimAllNumberToInt(_ string : String) -> Int64 {
         var numberString : String = ""
         for c in string.characters {
             if VisualHumainNumber.isCharacterNumber(c) == true {
