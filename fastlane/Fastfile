@@ -69,8 +69,8 @@ end
 
 lane :deploy do
 
-  if git_branch() == "master"
-    version = get_version_number()
+   if git_branch() == "master"
+    version = get_version_number(xcodeproj: "#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj")
     set_github_release(
       repository_name: "Armanoide/VisualHumainNumber",
       name: version, # nom de la version sur GitHub
@@ -79,10 +79,12 @@ lane :deploy do
       description: changelog_from_git_commits(),
       commitish: "master"
     )
-    version = version_bump_podspec(path: "#{Dir.pwd}/VisualHumainNumber.podspec", version_number: "V#{version}")
+    puts "locate podspec file: #{Dir.pwd}/../VisualHumainNumber.podspec""
+    version = version_bump_podspec(path: "#{Dir.pwd}/../VisualHumainNumber.podspec")
     puts "now verions is #{version}"
-    pod_push()
+    pod_push(allow_warnings: true, verbose: true)
   end
+  
 end
 
 
@@ -90,4 +92,4 @@ end
 # All available actions: https://docs.fastlane.tools/actions
 
 # fastlane reports which actions are used
-# No personal data is recorded. Learn more at https://github.com/fastlane/enhancer
+# No personal data is recorded. Learn more at https://github.com/fastlane/enhancerBB
