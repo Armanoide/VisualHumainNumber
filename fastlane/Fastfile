@@ -74,14 +74,17 @@ lane :deploy do
     set_github_release(
       repository_name: "Armanoide/VisualHumainNumber",
       name: version, # nom de la version sur GitHub
-      tag_name: "v#{version}",
+      tag_name: "V#{version}",
       api_token: ENV["GITHUB_TOKEN"],
       description: changelog_from_git_commits(),
       commitish: "master"
     )
+    version = version_bump_podspec(path: "#{Dir.pwd}/VisualHumainNumber.podspec", version_number: "V#{version}")
+    puts "now verions is #{version}"
     pod_push()
   end
 end
+
 
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://docs.fastlane.tools/actions
