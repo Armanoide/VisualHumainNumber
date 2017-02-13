@@ -65,6 +65,21 @@ platform :ios do
   end
 end
 
+lane :deploy do
+
+  if git_branch() == "master"
+    version = get_version_number()
+    set_github_release(
+      repository_name: "Armanoide/VisualHumainNumber",
+      name: version, # nom de la version sur GitHub
+      tag_name: "v#{version}",
+      api_token: ENV["GITHUB_TOKEN"],
+      description: changelog_from_git_commits(),
+      commitish: "master"
+    )
+    pod_push()
+  end
+
 
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://docs.fastlane.tools/actions
