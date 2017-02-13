@@ -17,32 +17,13 @@ default_platform :ios
 
 puts "Current working directory before: #{Dir.pwd}"
 
-#    increment_build_number({
-#      xcodeproj: 'project_path',
-#      build_number: latest_testflight_build_number(
-#        app_identifier: "com.billa.VisualHumainNumber"
-#      ) + 1
-#    })
-
-
-puts ENV["XCODE_SCHEME"]
-puts ENV["XCODE_WORKSPACE"]
-puts ENV["XCODE_PROJECT"]
 
 platform :ios do
   before_all do
-#    # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
-#    #ENV["XCODE_BUILD_PATH"] = "#{Dir.pwd}"
-#    ENV["XCODE_SCHEME"] = "com.billa.VisualHumainNumber"
-#    #ENV["XCODE_WORKSPACE"] = "#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj"
-#    ENV["XCODE_PROJECT"] = "#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj"
-    
-    
   end
 
   desc "Runs all the tests"
   lane :test do
-puts "#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj"
     scan(project:"#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj",	
 	scheme:"testcase"
 	)

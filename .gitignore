@@ -1,0 +1,2 @@
+fastlane/report*
+fastlane/test_output/*
