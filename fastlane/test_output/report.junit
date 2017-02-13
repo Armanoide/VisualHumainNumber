@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<testsuites name='VisualHumainNumberTests.xctest' tests='4' failures='0'>
+  <testsuite name='VisualHumainNumberTests.VisualHumainNumberTests' tests='4' failures='0'>
+    <testcase classname='VisualHumainNumberTests.VisualHumainNumberTests' name='testIntNumber321445' time='0.004'/>
+    <testcase classname='VisualHumainNumberTests.VisualHumainNumberTests' name='testStringNumber430345' time='0.001'/>
+    <testcase classname='VisualHumainNumberTests.VisualHumainNumberTests' name='testStringNumber4303453345' time='0.001'/>
+    <testcase classname='VisualHumainNumberTests.VisualHumainNumberTests' name='testStringNumber53430345_83' time='0.002'/>
+  </testsuite>
+</testsuites>

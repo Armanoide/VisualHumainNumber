@@ -15,16 +15,12 @@ import Foundation
 /// Indentation will create a code block, handy for example usage:
 ///
 ///
-/// 1. **SimpleHumain**
+/// 1. **simpleHumain**
 ///   (ex: 4532456) => 4M
-/// 2. **SeparatorHundredWithComaRounded**
+/// 2. **separatorHundred**
 ///   (ex: 4532456.43) => 4,532,456.43
-/// 3. **SeparatorHundredWithSpaceRounded**
+/// 3. **separatorHundredRounded**
 ///   (ex: 4532456.43) => 4 532 456.43
-/// 4. **SeparatorHundredWithComa**
-///   (ex: 4532456) => 4,532,456
-/// 5. **SeparatorHundredWithComa**
-///   (ex: 4532456) => 4,532,456
 ///
 ///
 /// - returns: VisualHumainNumberNotation.
@@ -38,9 +34,9 @@ import Foundation
     
     fileprivate var visualHumainNumbersDecimal : Double = 0
     fileprivate var visualHumainNumbersInteger : Int64 = 0
-    fileprivate var _separator = Character( "," );
+    fileprivate var _separator: String =  ","
 
-    var separator: Character? {
+    var separator: String? {
         get {
             return _separator
         }
@@ -52,17 +48,17 @@ import Foundation
     }
 
 
-    public init(string :String, separator: Character? = nil)    {
+    public init(string :String, separator: String? = nil)    {
         super.init ()
         self.separator = separator;
     _ = self.setNumber(string: string)}
     
-    public init(double: Double, separator: Character? = nil)    {
+    public init(double: Double, separator: String? = nil)    {
         super.init ()
         self.separator = separator;
     _ = self.setNumber(double: double) }
     
-    public init(long: Int64, separator: Character? = nil)       {
+    public init(long: Int64, separator: String? = nil)       {
         super.init ()
         self.separator = separator;
     _ = self.setNumber(long: long) }
@@ -85,11 +81,12 @@ import Foundation
     }
 
     
-    fileprivate func separator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : Character) -> String {
+    fileprivate func appendSeparator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : String) -> String {
         var s  = ""
         var result = ""
         var __all_count = 0
 
+        // for resverse wait to start after coma like 04.432, start apply stuff after 04.
         var __start = true;
         var __true_length_decimal = 0;
 
@@ -170,7 +167,7 @@ import Foundation
         case .simpleHumain:
             return self.simpleHumain(notation: notation)
         case .separatorHundred, .separatorHundredRounded:
-            return self.separator(notation: notation, lenghtForSeparator: 3, separator: self.separator!)
+            return self.appendSeparator(notation: notation, lenghtForSeparator: 3, separator: self.separator!)
         }
     }
     

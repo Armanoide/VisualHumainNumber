@@ -43,8 +43,7 @@ platform :ios do
   desc "Runs all the tests"
   lane :test do
 puts "#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj"
-    scan(project:"#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj",	
-	scheme:"testcase"
+    scan(project:"#{Dir.pwd}/../DEMO/VisualHumainNumber.xcodeproj"	
 	)
   end
 
