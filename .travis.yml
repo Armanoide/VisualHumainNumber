@@ -13,7 +13,7 @@ before_install:
   - gem install bundler
   - bundle install
 script:
-  - bundle exec fastlane testcase
+  - bundle exec fastlane ios test
 after_success:
   - bundle exec fastlane deploy
 #  add_git_tag(
