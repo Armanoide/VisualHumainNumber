@@ -15,6 +15,10 @@ fastlane_version "2.14.2"
 
 default_platform :ios
 
+puts "Current working directory before: #{Dir.pwd}"
+
+ENV["GYM_PROJECT"] = "#{Dir.pwd}../DEMO"
+
 platform :ios do
   before_all do
     # ENV["SLACK_URL"] = "https://hooks.slack.com/services/..."
@@ -79,7 +83,7 @@ lane :deploy do
     )
     pod_push()
   end
-
+end
 
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://docs.fastlane.tools/actions
