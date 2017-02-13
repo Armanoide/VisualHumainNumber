@@ -30,25 +30,42 @@ import Foundation
 /// - returns: VisualHumainNumberNotation.
 @objc public enum VisualHumainNumberNotation : Int {
     case simpleHumain
-    case separatorHundredWithSpace
-    case separatorHundredWithComa
-    case separatorHundredWithSpaceRounded
-    case separatorHundredWithComaRounded
+    case separatorHundred
+    case separatorHundredRounded
 }
 
 @objc public class VisualHumainNumber: NSObject {
     
     fileprivate var visualHumainNumbersDecimal : Double = 0
     fileprivate var visualHumainNumbersInteger : Int64 = 0
+    fileprivate var _separator = Character( "," );
+
+    var separator: Character? {
+        get {
+            return _separator
+        }
+        set {
+            if let newValue = newValue {
+                self._separator = newValue;
+            }
+        }
+    }
+
+
+    public init(string :String, separator: Character? = nil)    {
+        super.init ()
+        self.separator = separator;
+    _ = self.setNumber(string: string)}
     
-   public init(string :String)    { super.init ()
-    self.setNumber(string: string)}
+    public init(double: Double, separator: Character? = nil)    {
+        super.init ()
+        self.separator = separator;
+    _ = self.setNumber(double: double) }
     
-   public init(double: Double)    { super.init ()
-    self.setNumber(double: double) }
-    
-   public init(long: Int64)       { super.init ()
-    self.setNumber(long: long) }
+    public init(long: Int64, separator: Character? = nil)       {
+        super.init ()
+        self.separator = separator;
+    _ = self.setNumber(long: long) }
     
    open func setNumber(string : String) ->  VisualHumainNumber {
         self.visualHumainNumbersDecimal =  VisualHumainNumber.trimAllNumberToDecimal(string)
@@ -66,16 +83,26 @@ import Foundation
         self.visualHumainNumbersInteger = long
         return self
     }
+
     
     fileprivate func separator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : Character) -> String {
         var s  = ""
-        var r = ""
+        var result = ""
         var __all_count = 0
-        var __start = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? false : true
-        let __true_length_decimal = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? 3 : 0
+
+        var __start = true;
+        var __true_length_decimal = 0;
+
+        if notation == .separatorHundredRounded {
+            __start = false;
+            __true_length_decimal = 3;
+
+        }
+        /*var __start = (notation == .separatorHundredRounded) ? false : true
+        let __true_length_decimal = (notation == .separatorHundredRounded) ? 3 : 0*/
         
         switch notation {
-        case .separatorHundredWithComaRounded, .separatorHundredWithSpaceRounded :
+        case .separatorHundredRounded :
             s = VisualHumainNumber.inverseString(String(stringInterpolationSegment: self.visualHumainNumbersDecimal))
             break
         default:
@@ -87,17 +114,17 @@ import Foundation
         
         for c in s.characters {
             if __start == true {
-                if __all_count % lenghtForSeparator == 0 && __all_count < s.characters.count - __true_length_decimal && __all_count > 0 {
-                    r.append(separator)
+                if __all_count % lenghtForSeparator == 0 && __all_count <= s.characters.count - __true_length_decimal && __all_count > 0 {
+                    result.append(separator)
                 }
                 __all_count += 1
             } else if c == "." {
                 __start = true
             }
-            r.append(c)
+            result.append(c)
         }
         
-        return VisualHumainNumber.inverseString(r)
+        return VisualHumainNumber.inverseString(result)
     }
     
     fileprivate func simpleHumain(notation : VisualHumainNumberNotation) -> String {
@@ -105,7 +132,7 @@ import Foundation
         let __ = self.visualHumainNumbersDecimal
         
         var r : Double = 0
-        var finalNotation : VisualHumainNumberNotation = .separatorHundredWithComaRounded
+        var finalNotation : VisualHumainNumberNotation = .separatorHundredRounded
         var type = 0
         
         if __ < 1000 {
@@ -123,8 +150,8 @@ import Foundation
         }
         
         var rs  = "\(floor(r * 10) / 10)"
-        if (floor(r * 10) / 10).truncatingRemainder(dividingBy: 1) == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .separatorHundredWithComa }
-        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .separatorHundredWithComa }
+        if (floor(r * 10) / 10).truncatingRemainder(dividingBy: 1) == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .separatorHundred }
+        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .separatorHundred }
         let __arr = VisualHumainNumber(string: rs)
         return __arr.getVisualHumainNumbers(notation: finalNotation) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
     }
@@ -142,22 +169,19 @@ import Foundation
         switch notation {
         case .simpleHumain:
             return self.simpleHumain(notation: notation)
-        case .separatorHundredWithComa, .separatorHundredWithComaRounded:
-            return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(","))
-        case .separatorHundredWithSpace, .separatorHundredWithSpaceRounded:
-            return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(" "))
+        case .separatorHundred, .separatorHundredRounded:
+            return self.separator(notation: notation, lenghtForSeparator: 3, separator: self.separator!)
         }
     }
     
     
-    /// Function inverse order of a string, the 1 become last and last the frist.
+    /// Function inverse order of a string, the 1 become last and last the first.
     ///
     ///
     ///
     /// - parameter String: The string to reverse order.
     /// - returns: String.
     open class func inverseString (_ string :String) -> String {
-        
         var s = ""
         for c in string.characters {
             s = "\(c)" + s
