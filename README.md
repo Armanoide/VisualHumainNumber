@@ -18,15 +18,16 @@ To use this vendor add files VisualHumainNumber.swift to your Project or add pod
 
 ## Basic
      
-        let vhn = VisualHumainNumber(string: "53430345.83")
+        let vhn = VisualHumainNumber(string: "53430345.83", separator: Character( " " ) )
         
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredWithSpace)) 
+        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
         // => 53 430 345
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredWithComa)) 
+        vhn.setSeparator( Character( "," ) )
+        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
         // =>  53,430,345
         println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SimpleHumain)) 
         // => 53M
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredWithComaRounded))
+        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredRounded))
         // => 53,430,345.83
 
         
