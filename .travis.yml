@@ -16,8 +16,3 @@ script:
   - bundle exec fastlane ios test
 after_success:
   - bundle exec fastlane deploy
-#  add_git_tag(
-#    grouping: "fastlane-builds",
-#    prefix: "v",
-#    build_number: 123
-#    )

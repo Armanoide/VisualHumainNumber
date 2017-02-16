@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name		    = 'VisualHumainNumber'
-  s.version         = "1.0.5" 
+  s.version         = "1.0.6" 
   s.license 		= { :type => "MIT", :file => "LICENSE" }
   s.platform      	= :ios, '8.0'
   s.summary 		= 'Display big number with abbreviation'
