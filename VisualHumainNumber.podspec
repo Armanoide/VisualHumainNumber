@@ -1,7 +1,7 @@
 Pod::Spec.new do |s|
 
   s.name		    = 'VisualHumainNumber'
-  s.version         = "1.0.7" 
+  s.version         = "1.0.8" 
   s.license 		= { :type => "MIT", :file => "LICENSE" }
   s.platform      	= :ios, '8.0'
   s.summary 		= 'Display big number with abbreviation'
@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.source_files 	= 'SRC/*.{swift}'
   s.requires_arc 	= true
   s.frameworks 		= 'Foundation'
-    puts "COCCOCOC======== #{s.version}"
+
 end

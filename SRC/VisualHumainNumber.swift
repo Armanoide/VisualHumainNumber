@@ -263,7 +263,7 @@ import Foundation
             
             if VisualHumainNumber.isCharacterMarkerDecimal(c) { break }
             
-            number = number * 10 + VisualHumainNumber.getCh(c)
+            number = number * 10 + Int64(VisualHumainNumber.getCh(c))
             
         }
         return number
