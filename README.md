@@ -23,14 +23,18 @@ To use this vendor add files VisualHumainNumber.swift to your Project or add pod
      
         let vhn = VisualHumainNumber(string: "53430345.83", separator: Character( " " ) )
         
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
+        print(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
         // => 53 430 345
         vhn.setSeparator( Character( "," ) )
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
+        print(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundred)) 
         // =>  53,430,345
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SimpleHumain)) 
+        print(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SimpleHumain)) 
         // => 53M
-        println(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredRounded))
+        print(vhn.getVisualHumainNumbers(notation: VisualHumainNumberNotation.SeparatorHundredRounded))
         // => 53,430,345.83
-
+        print(vhn.isNegative)
+        // => fasle
         
+## Feature
+
+- [x]  Negative number

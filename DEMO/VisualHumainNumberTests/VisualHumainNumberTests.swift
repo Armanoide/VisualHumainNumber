@@ -23,46 +23,123 @@ class VisualHumainNumberTests: XCTestCase {
     }
 
     func testStringNumber53430345_83() {
-        let vhn: VisualHumainNumber = VisualHumainNumber(string: "53430345.83", separator: ",");
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "53,430,345.83");
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "53430345.83", separator: ",")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "53,430,345.83")
         vhn.separator = " "
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53 430 345" );
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53 430 345" )
         //XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53,430,345" );
         vhn.separator = "."
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "53.4M" );
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "53.4M" )
         vhn.separator = "😂"
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53😂430😂345" );
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53😂430😂345" )
 
     }
+
+    func testStringNumberNegative53430345_83() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "-53430345.83", separator: ",")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "-53,430,345.83")
+        XCTAssertTrue( vhn.isNegative == true )
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-53 430 345" )
+        //XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53,430,345" );
+        vhn.separator = "."
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "-53.4M" )
+        vhn.separator = "😂"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-53😂430😂345" )
+
+    }
+
+    // test if - + -  = +
+    func testStringNumberWithServalMinus53430345_83() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "----53430345.83", separator: ",")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "53,430,345.83")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53 430 345" )
+        //XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53,430,345" );
+        vhn.separator = "."
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "53.4M" )
+        vhn.separator = "😂"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53😂430😂345" )
+
+    }
+
+    // test if - + - + - = -
+    func testStringNumberWithServalPositive53430345_83() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "---53430345.83", separator: ",")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "-53,430,345.83")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-53 430 345" )
+        //XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "53,430,345" );
+        vhn.separator = "."
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "-53.4M" )
+        vhn.separator = "😂"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-53😂430😂345" )
+
+    }
+
 
     func testStringNumber430345() {
-        let vhn: VisualHumainNumber = VisualHumainNumber(string: "430345");
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "430,345.0");
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "430,345" );
-        vhn.separator = "!";
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "430!345" );
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "430k" );
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "430345")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "430,345.0")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "430,345" )
+        vhn.separator = "!"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "430!345" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "430k" )
     }
+
+
+    func testStringNumberNegative430345() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "-430345")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "-430,345.0")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-430,345" )
+        vhn.separator = "!"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-430!345" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "-430k" )
+    }
+
 
     func testStringNumber4303453345() {
-        let vhn: VisualHumainNumber = VisualHumainNumber(string: "4303453345");
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "4,303,453,345.0");
-        vhn.separator = " ";
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "4 303 453 345" );
-        vhn.separator = ",";
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "4,303,453,345" );
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "4.3B" );
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "4303453345")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "4,303,453,345.0")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "4 303 453 345" )
+        vhn.separator = ","
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "4,303,453,345" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "4.3B" )
     }
 
-    func testIntNumber321445() {
-        let vhn: VisualHumainNumber = VisualHumainNumber(long: 321445);
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "321,445.0");
-        vhn.separator = " ";
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "321 445" );
-        vhn.separator = "~";
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "321~445" );
-        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "321k" );
+    func testStringNumberNegative4303453345() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(string: "-4303453345")
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "-4,303,453,345.0")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-4 303 453 345" )
+        vhn.separator = ","
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-4,303,453,345" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "-4.3B" )
     }
+
+
+
+    func testIntNumber321445() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(long: 321445)
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "321,445.0")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "321 445" )
+        vhn.separator = "~"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "321~445" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "321k" )
+    }
+
+    func testIntNumberNegative321445() {
+        let vhn: VisualHumainNumber = VisualHumainNumber(long: -321445);
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundredRounded) == "-321,445.0")
+        vhn.separator = " "
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-321 445" )
+        vhn.separator = "~"
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .separatorHundred) == "-321~445" )
+        XCTAssertTrue( vhn.getVisualHumainNumbers(notation: .simpleHumain) == "-321k" )
+    }
+
 
 
    }
