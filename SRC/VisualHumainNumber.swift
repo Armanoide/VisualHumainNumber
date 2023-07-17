@@ -15,156 +15,99 @@ import Foundation
 /// Indentation will create a code block, handy for example usage:
 ///
 ///
-/// 1. **simpleHumain**
+/// 1. **SimpleHumain**
 ///   (ex: 4532456) => 4M
-/// 2. **separatorHundred**
+/// 2. **SeparatorHundredWithComaRounded**
 ///   (ex: 4532456.43) => 4,532,456.43
-/// 3. **separatorHundredRounded**
+/// 3. **SeparatorHundredWithSpaceRounded**
 ///   (ex: 4532456.43) => 4 532 456.43
+/// 4. **SeparatorHundredWithComa**
+///   (ex: 4532456) => 4,532,456
+/// 5. **SeparatorHundredWithComa**
+///   (ex: 4532456) => 4,532,456
 ///
 ///
 /// - returns: VisualHumainNumberNotation.
 @objc public enum VisualHumainNumberNotation : Int {
     case simpleHumain
-    case separatorHundred
-    case separatorHundredRounded
+    case separatorHundredWithSpace
+    case separatorHundredWithComa
+    case separatorHundredWithSpaceRounded
+    case separatorHundredWithComaRounded
 }
 
 @objc public class VisualHumainNumber: NSObject {
-
+    
     fileprivate var visualHumainNumbersDecimal : Double = 0
     fileprivate var visualHumainNumbersInteger : Int64 = 0
-    fileprivate var _separator: String =  ","
-    fileprivate (set) var isNegative : Bool = false
-
-    var separator: String? {
-        get {
-            return _separator
-        }
-        set {
-            if let newValue = newValue {
-                self._separator = newValue;
-            }
-        }
-    }
-
-
-    public init(string :String, separator: String? = nil)    {
-        super.init ()
-        self.separator = separator;
-        _ = self.setNumber(string: string)
-
-    }
-
-    public init(double: Double, separator: String? = nil)    {
-        super.init ()
-        self.separator = separator;
-        _ = self.setNumber(double: double)
-
-    }
-
-    public init(long: Int64, separator: String? = nil)       {
-        super.init ()
-        self.separator = separator;
-        _ = self.setNumber(long: long)
-
-    }
-
-    open func setNumber(string : String) ->  VisualHumainNumber {
+    
+   public init(string :String)    { super.init ()
+    self.setNumber(string: string)}
+    
+   public init(double: Double)    { super.init ()
+    self.setNumber(double: double) }
+    
+   public init(long: Int64)       { super.init ()
+    self.setNumber(long: long) }
+    
+   open func setNumber(string : String) ->  VisualHumainNumber {
         self.visualHumainNumbersDecimal =  VisualHumainNumber.trimAllNumberToDecimal(string)
         self.visualHumainNumbersInteger =  VisualHumainNumber.trimAllNumberToInt(string)
-        checkIfIsNegative()
         return self
-
     }
     open func setNumber(double: Double) -> VisualHumainNumber {
         self.visualHumainNumbersDecimal = double
         self.visualHumainNumbersInteger = Int64(floor(double))
-        checkIfIsNegative()
         return self
-
     }
-
+    
     open func setNumber(long: Int64) -> VisualHumainNumber {
         self.visualHumainNumbersDecimal = Double(long)
         self.visualHumainNumbersInteger = long
-        checkIfIsNegative()
         return self
     }
-
-    fileprivate func checkIfIsNegative() {
-        if self.visualHumainNumbersDecimal < 0 || self.visualHumainNumbersInteger < 0 {
-            self.isNegative = true
-        }
-    }
-
-
-    fileprivate func appendSeparator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : String) -> String {
+    
+    fileprivate func separator(notation : VisualHumainNumberNotation, lenghtForSeparator : Int, separator : Character) -> String {
         var s  = ""
-        var result = ""
+        var r = ""
         var __all_count = 0
-
-        // for resverse wait to start after coma like 04.432, start apply stuff after 04.
-        var __start = true;
-        var __true_length_decimal = 0;
-
-        if notation == .separatorHundredRounded {
-            __start = false;
-            __true_length_decimal = 3;
-
-        }
-        /*var __start = (notation == .separatorHundredRounded) ? false : true
-         let __true_length_decimal = (notation == .separatorHundredRounded) ? 3 : 0*/
-
+        var __start = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? false : true
+        let __true_length_decimal = (notation == .separatorHundredWithComaRounded || notation == .separatorHundredWithSpaceRounded) ? 3 : 0
+        
         switch notation {
-        case .separatorHundredRounded :
-            s = VisualHumainNumber.inverseString(String(stringInterpolationSegment: self.visualHumainNumbersDecimal))
+        case .separatorHundredWithComaRounded, .separatorHundredWithSpaceRounded :
+            s = VisualHumainNumber.inverseString(String(self.visualHumainNumbersDecimal))
             break
         default:
-            s = VisualHumainNumber.inverseString(String(stringInterpolationSegment: self.visualHumainNumbersInteger))
+            s = VisualHumainNumber.inverseString(String(self.visualHumainNumbersInteger))
             break
-
+            
         }
-
-        if self.isNegative {
-            let endIndex = s.index(s.endIndex, offsetBy: -1)
-            let lastCharacter = s.substring(from: endIndex)
-            if lastCharacter == "-" {
-                s = s.substring(to: endIndex)
-            }
-        }
-
-        for c in s.characters {
+        
+        
+        for c in s {
             if __start == true {
-                if __all_count % lenghtForSeparator == 0 && __all_count <= s.characters.count - __true_length_decimal && __all_count > 0 {
-                    result.append(separator)
+                if __all_count % lenghtForSeparator == 0 && __all_count < s.count - __true_length_decimal && __all_count > 0 {
+                    r.append(separator)
                 }
                 __all_count += 1
             } else if c == "." {
                 __start = true
             }
-            result.append(c)
+            r.append(c)
         }
-
-        if self.isNegative {
-            result.append("-")
-        }
-
-        return VisualHumainNumber.inverseString(result)
+        
+        return VisualHumainNumber.inverseString(r)
     }
-
+    
     fileprivate func simpleHumain(notation : VisualHumainNumberNotation) -> String {
-
-        var __ = self.visualHumainNumbersDecimal
+        
+        let __ = self.visualHumainNumbersDecimal
+        
         var r : Double = 0
-        var finalNotation : VisualHumainNumberNotation = .separatorHundredRounded
+        var finalNotation : VisualHumainNumberNotation = .separatorHundredWithComaRounded
         var type = 0
-
-        // check if is negative
-        if self.isNegative {
-            __ = __ * -1
-        }
-
+        
         if __ < 1000 {
             r =  __
         }
@@ -178,19 +121,14 @@ import Foundation
             r = __ / 1000000000
             type = 3
         }
-
+        
         var rs  = "\(floor(r * 10) / 10)"
-        if (floor(r * 10) / 10).truncatingRemainder(dividingBy: 1) == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .separatorHundred }
-        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .separatorHundred }
+        if (floor(r * 10) / 10).truncatingRemainder(dividingBy: 1) == 0 {  rs = "\(Int64(floor(r)))" ;  finalNotation = .separatorHundredWithComa }
+        let __rs_i = VisualHumainNumber.getDoubleFromString(rs) ;  if __rs_i >= 100 { rs = "\(Int64(floor(__rs_i)))" ; finalNotation = .separatorHundredWithComa }
         let __arr = VisualHumainNumber(string: rs)
-        var result = __arr.getVisualHumainNumbers(notation: finalNotation) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
-
-        if isNegative {
-            result = "-" + result
-        }
-        return result
+        return __arr.getVisualHumainNumbers(notation: finalNotation) + (type == 1 ? "k" : (type == 2 ? "M" : (type == 3 ? "B" : "")))
     }
-
+    
     /// Function getVisualHumainNumbers transform big number into a visual number for humain
     ///
     ///
@@ -198,32 +136,35 @@ import Foundation
     /// - parameter VisualHumainNumberNotation: use to determine the fomat to display number.
     /// - returns: String.
     open func getVisualHumainNumbers(notation : VisualHumainNumberNotation) -> String {
-
+        
         if self.visualHumainNumbersDecimal == 0 { return "0" }
-
+        
         switch notation {
         case .simpleHumain:
             return self.simpleHumain(notation: notation)
-        case .separatorHundred, .separatorHundredRounded:
-            return self.appendSeparator(notation: notation, lenghtForSeparator: 3, separator: self.separator!)
+        case .separatorHundredWithComa, .separatorHundredWithComaRounded:
+            return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(","))
+        case .separatorHundredWithSpace, .separatorHundredWithSpaceRounded:
+            return self.separator(notation: notation, lenghtForSeparator: 3, separator: Character(" "))
         }
     }
-
-
-    /// Function inverse order of a string, the 1 become last and last the first.
+    
+    
+    /// Function inverse order of a string, the 1 become last and last the frist.
     ///
     ///
     ///
     /// - parameter String: The string to reverse order.
     /// - returns: String.
     open class func inverseString (_ string :String) -> String {
+        
         var s = ""
-        for c in string.characters {
+        for c in string {
             s = "\(c)" + s
         }
         return s
     }
-
+    
     /// Determine if the Character is a number.
     ///
     ///
@@ -236,7 +177,7 @@ import Foundation
         default: return false
         }
     }
-
+    
     /// Determine if the Character is a marker of decimal.
     ///
     ///
@@ -249,7 +190,7 @@ import Foundation
         default: return false
         }
     }
-
+    
     fileprivate class func getCh(_ c : Character) -> Int {
         switch c {
         case "0": return 0
@@ -265,50 +206,50 @@ import Foundation
         default: return 0
         }
     }
-
-
+    
+    
     fileprivate class func getDoubleFromString(_ numberString: String) -> Double {
         var number : Double = 0
         var mul : Double = 1
         var __P = "UP"
-
-        for c in numberString.characters {
+        
+        for c in numberString {
             if VisualHumainNumber.isCharacterMarkerDecimal(c) {
                 __P = "DOWN"
                 mul = 0.1
-
+                
             } else {
-
+                
                 if __P == "UP" {
-
+                    
                     number = number * 10 + Double(VisualHumainNumber.getCh(c))
-
+                    
                 } else {
-
+                    
                     number = number + Double(VisualHumainNumber.getCh(c)) * mul
                     mul /= 10
-
+                    
                 }
             }
         }
         return number
     }
-
+    
     fileprivate class func getIntegerFromString(_ numberString: String) -> Int64 {
         var number : Int64 = 0
-
-        for c in numberString.characters {
-
+        
+        for c in numberString {
+            
             if VisualHumainNumber.isCharacterMarkerDecimal(c) { break }
-
+            
             number = number * 10 + Int64(VisualHumainNumber.getCh(c))
-
+            
         }
         return number
     }
-
-
-
+    
+    
+    
     /// Function collect all number found in the string and cast to double
     ///
     ///
@@ -317,26 +258,17 @@ import Foundation
     /// - returns: Bool.
     open class func trimAllNumberToDecimal(_ string : String) -> Double {
         var numberString : String = ""
-        var isNegative = false
-        for c in string.characters {
+        for c in string {
             if VisualHumainNumber.isCharacterNumber(c) == true {
                 numberString.append(c)
             }
             else if  VisualHumainNumber.isCharacterMarkerDecimal(c) == true  {
                 numberString.append(Character(","))
-            } else if c == "-" && numberString.isEmpty {
-                isNegative = !isNegative
             }
         }
-
-        if isNegative {
-            return self.getDoubleFromString(numberString) * -1
-        } else {
-            return self.getDoubleFromString(numberString)
-        }
-
+        return self.getDoubleFromString(numberString)
     }
-
+    
     /// Function collect all number found in the string and cast to interger
     ///
     ///
@@ -345,7 +277,7 @@ import Foundation
     /// - returns: Bool.
     open class func trimAllNumberToInt(_ string : String) -> Int64 {
         var numberString : String = ""
-        for c in string.characters {
+        for c in string {
             if VisualHumainNumber.isCharacterNumber(c) == true {
                 numberString.append(c)
             }
